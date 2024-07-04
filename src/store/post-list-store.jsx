@@ -30,7 +30,7 @@ const PostListProvider = ({ children }) => {
             id: Date.now(),
             title: postTitle,
             body: postBody,
-            reactions: reactions,
+            reactions: {likes:reactions},
             userId: userId,
             tags: tags,
          },
@@ -51,6 +51,7 @@ const PostListProvider = ({ children }) => {
    };
 
    useEffect(() => {
+      try{
       setFetching(true);
       const controller = new AbortController();
       const signal = controller.signal;
@@ -61,11 +62,12 @@ const PostListProvider = ({ children }) => {
             addinitialPosts(data.posts);
             setFetching(false);
          });
+      }catch(error){
 
       return () => {
          console.log("Cleaning up UseEffect.");
          controller.abort();
-      };
+      };  }
    }, []);
 
 
